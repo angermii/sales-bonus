@@ -7,8 +7,7 @@
 function calculateSimpleRevenue(purchase, _product) {
   // @TODO: Расчет выручки от операции
   const { discount, sale_price, quantity } = purchase;
-  const discountFactor = 1 - discount / 100;
-  return sale_price * quantity * discountFactor;
+  return sale_price * quantity * (1 - discount / 100);
 }
 
 /**
@@ -23,7 +22,7 @@ function calculateBonusByProfit(index, total, seller) {
   const { profit } = seller;
   if (index === 0) {
     return profit * 0.15;
-  } else if (index <= 2) {
+  } else if (index === 1 || index === 2) {
     return profit * 0.1;
   } else if (index === total - 1) {
     return 0;
@@ -56,11 +55,11 @@ function analyzeSalesData(data, options) {
   const { calculateRevenue, calculateBonus } = options;
 
   // @TODO: Проверка наличия опций
-  if (!calculateRevenue || !typeof calculateRevenue === "function") {
+  if (!calculateRevenue || typeof calculateRevenue !== "function") {
     throw new Error("Чего-то не хватает");
   }
 
-  if (!calculateBonus || !typeof calculateBonus === "function") {
+  if (!calculateBonus || typeof calculateBonus !== "function") {
     throw new Error("Чего-то не хватает");
   }
 
